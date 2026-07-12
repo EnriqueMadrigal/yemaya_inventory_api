@@ -8,11 +8,20 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use App\Utils\HelloWorld;
 use App\Routing\Router;
 use App\Controllers\LoginController;
-use App\Services\UserService;
-use App\Repositories\UserRepository;
 use App\Controllers\AuthController;
-use App\Services\AuthService;
 use App\Controllers\UserController;
+use App\Controllers\PacienteController;
+use App\Entities\Paciente;
+
+use App\Services\UserService;
+use App\Services\AuthService;
+use App\Services\PacienteService;
+
+use App\Repositories\UserRepository;
+use App\Repositories\PacienteRepository;
+
+
+
 use App\Middleware\AuthMiddleware;
 use App\Middleware\ApiKeyMiddleware;
 
@@ -27,12 +36,17 @@ error_reporting(E_ALL);
 $router = new Router();
 
 $userRepository = new UserRepository();
+$pacienteRepository = new PacienteRepository();
+
 
 
 $loginController = new LoginController(new UserService($userRepository));
 $authController = new AuthController(new AuthService($userRepository));
 $userController = new UserController(new UserService($userRepository));
-$authMiddleware = new AuthMiddleware(new AuthService($userRepository));
+$pacienteController = new PacienteController(new PacienteService($pacienteRepository));
+$authMiddleware = new AuthMiddleware();
+
+
 // Define a test route
 $router->get('/api/test', function () {
     //return ("OK");
@@ -49,7 +63,8 @@ $router->post('/api/register', fn() => $loginController->register());
 $router->post('/api/register', fn() => $loginController->register());
 $router->get('/api/user/(\d+)', fn($id) => $userController->getById($id),[AuthMiddleware::class]);
 
-
+//Paciente
+$router->post('/api/paciente/', fn() => $pacienteController->insert(),[AuthMiddleware::class]);
 
 
 $router->dispatch();

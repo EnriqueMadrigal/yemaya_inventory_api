@@ -47,6 +47,23 @@ class AuthService {
           }
       }
 
+    public function getUuserId(string $token): int {
+        $curUserId = 0;
+
+         try {
+              $decoded = JWT::decode($token, new Key($_ENV['JWT_SECRET'], 'HS256'));
+              return (int)$decoded->user_id;
+          } catch (\Exception $e) {
+              throw new \RuntimeException('Invalid or expired token');
+          }
+
+
+
+
+        return $curUserId;
+    }
+
+
 
 }
 
