@@ -4,38 +4,39 @@ namespace App\Entities;
 
 class Paciente
 {
-    private ?int $id = null;
-    private string $nombres;
-    private ?string $amaterno = null;
-    private ?string $apaterno = null;
-    private string $fechaNac;
-    private string $created;
-    private int $sexo = 1;
-    private int $estadocivil = 1;
-    private ?string $comentarios = null;
-    private ?string $apodo = null;
-    private ?string $calle = null;
-    private int $estado = 14;
-    private int $municipio = 73;
-    private int $cp = 0;
-    private ?string $telefonoCasa = null;
-    private ?string $telefonoCelular = null;
-    private int $escuela = 0;
-    private int $grado = 0;
-    private ?string $modified = null;
-    private int $religion = 1;
-    private ?string $email = null;
-    private int $ocupacion = 0;
-    private ?string $urgencia = null;
-    private ?string $numext = null;
-    private ?string $numint = null;
-    private int $tiposangre = 1;
-    private ?string $imss = null;
-    private int $idpersona = 0;
-    private bool $notificacion = false;
-    private ?string $colonia = null;
-    private int $consultorio = 0;
-    private ?string $uniqueid = null;
+    public ?int $id = null;
+    public string $nombres;
+    public ?string $amaterno = null;
+    public ?string $apaterno = null;
+    public string $fechaNac;
+    public string $created;
+    public int $sexo = 1;
+    public int $estadocivil = 1;
+    public ?string $comentarios = null;
+    public ?string $apodo = null;
+    public ?string $calle = null;
+    public int $estado = 14;
+    public int $municipio = 73;
+    public int $cp = 0;
+    public ?string $telefonoCasa = null;
+    public ?string $telefonoCelular = null;
+    public int $escuela = 0;
+    public int $grado = 0;
+    public ?string $modified = null;
+    public int $religion = 1;
+    public ?string $email = null;
+    public int $ocupacion = 0;
+    public ?string $urgencia = null;
+    public ?string $numext = null;
+    public ?string $numint = null;
+    public int $tiposangre = 1;
+    public ?string $imss = null;
+    public int $idpersona = 0;
+    public bool $notificacion = false;
+    public ?string $colonia = null;
+    public int $consultorio = 0;
+    public ?string $uniqueid = null;
+    public int $estado_paciente = 0;
 
     // --- GETTERS ---
 
@@ -71,6 +72,7 @@ class Paciente
     public function getColonia(): ?string { return $this->colonia; }
     public function getConsultorio(): int { return $this->consultorio; }
     public function getUniqueid(): ?string { return $this->uniqueid; }
+    public function getEstado_paciente(): int { return $this->estado_paciente; }
 
     // --- SETTERS ---
 
@@ -106,6 +108,7 @@ class Paciente
     public function setColonia(?string $colonia): void { $this->colonia = $colonia; }
     public function setConsultorio(int $consultorio): void { $this->consultorio = $consultorio; }
     public function setUniqueid(?string $uniqueid): void { $this->uniqueid = $uniqueid; }
+    public function setEstado_paciente(int $estado_paciente): void { $this->estado_paciente = $estado_paciente; }
 
 public function toArray(): array
 {
@@ -142,9 +145,98 @@ public function toArray(): array
         'colonia'         => $this->colonia,
         'consultorio'     => $this->consultorio,
         'uniqueid'        => $this->uniqueid,
+        'estado_paciente' => $this->estado_paciente,
     ];
 }
 
+public static function fromArray(array $row): self
+    {
+        $u = new self();
+        // Map and cast defensively; ignore unknown keys
+        if (array_key_exists('id', $row)) $u->setId(self::toNullableInt($row['id']));
+        if (array_key_exists('Nombres', $row)) $u->setNombres((string)$row['Nombres']);
+        if (array_key_exists('Amaterno', $row)) $u->setAmaterno((string)$row['Amaterno']);
+        if (array_key_exists('Apaterno', $row)) $u->setApaterno((string)$row['Apaterno']);
+        if (array_key_exists('sexo', $row)) $u->setSexo((int)$row['sexo']);
+        if (array_key_exists('estadocivil', $row)) $u->setEstadocivil((int)$row['estadocivil']);
+        if (array_key_exists('apodo', $row)) $u->setApodo((string)$row['apodo']);
+        if (array_key_exists('calle', $row)) $u->setCalle((string)$row['calle']);
+        if (array_key_exists('estado', $row)) $u->setEstado((int)$row['estado']);
+        if (array_key_exists('municipio', $row)) $u->setMunicipio((int)$row['municipio']);
+        if (array_key_exists('cp', $row)) $u->setCp((int)$row['cp']);
+        if (array_key_exists('telefonoCelular', $row)) $u->setTelefonoCelular((string)$row['telefonoCelular']);
+        if (array_key_exists('telefonoCasa', $row)) $u->setTelefonoCasa((string)$row['telefonoCasa']);
+        if (array_key_exists('escuela', $row)) $u->setEscuela((int)$row['escuela']);
+        if (array_key_exists('grado', $row)) $u->setGrado((int)$row['grado']);
+        if (array_key_exists('religion', $row)) $u->setReligion((int)$row['religion']);
+        if (array_key_exists('email', $row)) $u->setEmail((string)$row['email']);
+        if (array_key_exists('ocupacion', $row)) $u->setOcupacion((int)$row['ocupacion']);
+        if (array_key_exists('urgencia', $row)) $u->setUrgencia((string)$row['urgencia']);
+        if (array_key_exists('numext', $row)) $u->setNumext((string)$row['numext']);
+        if (array_key_exists('numint', $row)) $u->setNumint((string)$row['numint']);
+        if (array_key_exists('tiposangre', $row)) $u->setTiposangre((int)$row['tiposangre']);
+        if (array_key_exists('imss', $row)) $u->setImss((string)$row['imss']);
+        if (array_key_exists('idpersona', $row)) $u->setIdpersona((int)$row['idpersona']);
+        if (array_key_exists('colonia', $row)) $u->setColonia((string)$row['colonia']);
+        if (array_key_exists('consultorio', $row)) $u->setConsultorio((int)$row['consultorio']);
+        if (array_key_exists('uniqueid', $row)) $u->setUniqueid((string)$row['uniqueid']);
+        if (array_key_exists('uniqueid', $row)) $u->setUniqueid((string)$row['uniqueid']);
+        if (array_key_exists('notificacion', $row)) $u->setNotificacion((bool)$row['notificacion']);
+        if (array_key_exists('estado_paciente', $row)) $u->setEstado_paciente((int)$row['estado_paciente']);
+         
+        return $u;
+    }
+
+
+ // Internal casting helpers
+    private static function toNullableInt(mixed $v): ?int
+    {
+        if ($v === null || $v === '') return null;
+        return (int)$v;
+    }
+    private static function toBool(mixed $v): bool
+    {
+        // Handle ints, strings from PDO for BIT(1) (can be "\x00"/"\x01"), and booleans
+        if (is_bool($v)) return $v;
+        if (is_int($v)) return $v === 1;
+        if (is_string($v)) {
+            // Normalize common representations
+            if ($v === "\x00" || $v === "\0") return false;
+            if ($v === "\x01") return true;
+            $lv = strtolower(trim($v));
+            if ($lv === '1' || $lv === 'true' || $lv === 't' || $lv === 'yes' || $lv === 'y') return true;
+            if ($lv === '0' || $lv === 'false' || $lv === 'f' || $lv === 'no' || $lv === 'n' || $lv === '') return false;
+        }
+        return (bool)$v;
+        }
+    private static function toNullableDate(mixed $v): ?\DateTimeInterface
+    {
+        if ($v === null || $v === '') return null;
+        // Accept DateTimeInterface or string
+        if ($v instanceof \DateTimeInterface) return $v;
+        try {
+            // Expecting 'Y-m-d'
+            return new \DateTimeImmutable((string)$v);
+        } catch (\Exception) {
+            return null;
+        }
+    }
+    private static function toNullableDateTime(mixed $v): ?\DateTimeInterface
+    {
+        if ($v === null || $v === '') return null;
+        if ($v instanceof \DateTimeInterface) return $v;
+        try {
+            // Expecting 'Y-m-d H:i:s'
+            return new \DateTimeImmutable((string)$v);
+        } catch (\Exception) {
+            return null;
+        }
+    }
+    private static function toDateTime(mixed $v): ?\DateTimeInterface
+    {
+        $dt = self::toNullableDateTime($v);
+        return $dt;
+    }
 
 
 }

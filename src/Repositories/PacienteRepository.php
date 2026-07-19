@@ -24,13 +24,13 @@ class PacienteRepository extends BaseRepository
                     comentarios, apodo, calle, estado, municipio, cp, telefonoCasa, 
                     telefonoCelular, escuela, grado, modified, religion, email, 
                     ocupacion, urgencia, numext, numint, tiposangre, imss, 
-                    idpersona, notificacion, colonia, consultorio, uniqueid
+                    idpersona, notificacion, colonia, consultorio, uniqueid,estado_paciente
                 ) VALUES (
                     :nombres, :amaterno, :apaterno, :fechaNac, NOW(), :sexo, :estadocivil, 
                     :comentarios, :apodo, :calle, :estado, :municipio, :cp, :telefonoCasa, 
                     :telefonoCelular, :escuela, :grado, NULL, :religion, :email, 
                     :ocupacion, :urgencia, :numext, :numint, :tiposangre, :imss, 
-                    :idpersona, :notificacion, :colonia, :consultorio, :uniqueid
+                    :idpersona, :notificacion, :colonia, :consultorio, :uniqueid, :estado_paciente
                 )";
 
         $stmt = $this->pdo->prepare($sql);
@@ -65,6 +65,8 @@ class PacienteRepository extends BaseRepository
             ':colonia'         => $paciente->getColonia(),
             ':consultorio'     => $paciente->getConsultorio(),
             ':uniqueid'        => $paciente->getUniqueid(),
+            ':estado_paciente'     => $paciente->getEstado_paciente(),
+            
         ]);
 
         if ($result) {
@@ -85,7 +87,6 @@ class PacienteRepository extends BaseRepository
         $row = $stmt->fetch();
 
         if (!$row) return null;
-
         return $this->mapRowToEntity($row);
     }
 
@@ -104,6 +105,26 @@ class PacienteRepository extends BaseRepository
         return $pacientes;
     }
 
+/**
+     * Busca un paciente por su ID
+     */
+    public function findAllByIdPersona(int $id): array
+    {
+        //$stmt = $this->pdo->prepare("SELECT * FROM pacientes WHERE idPersona = ?");
+        //$stmt->execute([$id]);
+        $stmt = $this->pdo->query("SELECT * FROM pacientes where idPersona=".$id);
+        $pacientes = [];
+        
+        while ($row = $stmt->fetch()) {
+           
+            $pacientes[] = Paciente::fromArray($row);
+        }
+       
+        return $pacientes;
+    }
+
+
+
     /**
      * Actualiza un paciente existente
      */
@@ -120,7 +141,7 @@ class PacienteRepository extends BaseRepository
                     urgencia = :urgencia, numext = :numext, numint = :numint, 
                     tiposangre = :tiposangre, imss = :imss, idpersona = :idpersona, 
                     notificacion = :notificacion, colonia = :colonia, 
-                    consultorio = :consultorio, uniqueid = :uniqueid 
+                    consultorio = :consultorio, uniqueid = :uniqueid, estado_paciente = :estado_paciente
                 WHERE id = :id";
 
         $stmt = $this->pdo->prepare($sql);
@@ -156,6 +177,7 @@ class PacienteRepository extends BaseRepository
             ':colonia'         => $paciente->getColonia(),
             ':consultorio'     => $paciente->getConsultorio(),
             ':uniqueid'        => $paciente->getUniqueid(),
+            ':estado_paciente' => $paciente->getEstado_paciente(),
         ]);
     }
 
@@ -206,7 +228,8 @@ class PacienteRepository extends BaseRepository
         $paciente->setColonia($row['colonia']);
         $paciente->setConsultorio((int)$row['consultorio']);
         $paciente->setUniqueid($row['uniqueid']);
-
+        $paciente->setEstado_paciente((int)$row['estado_paciente']);
+  
         return $paciente;
     }
 }

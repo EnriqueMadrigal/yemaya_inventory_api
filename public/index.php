@@ -65,7 +65,10 @@ $router->get('/api/user/(\d+)', fn($id) => $userController->getById($id),[AuthMi
 
 //Paciente
 $router->post('/api/paciente/', fn() => $pacienteController->insert(),[AuthMiddleware::class]);
-
+$router->get('/api/pacientes/', fn() => $pacienteController->getPacientes(),[AuthMiddleware::class]);
+$router->get('/api/paciente/(\d+)', fn($id) => $pacienteController->getPaciente($id),[AuthMiddleware::class]);
+$router->put('/api/paciente/', fn() => $pacienteController->update(),[AuthMiddleware::class]);
+$router->delete('/api/paciente/(\d+)', fn($id) => $pacienteController->delete($id),[AuthMiddleware::class]);
 
 $router->dispatch();
 
