@@ -63,7 +63,8 @@ public function insert() {
 
 public function getPacientes() {
           try {
-              $user = $this->pacienteService->ReadAllByIdPersona(3);
+            $user_id = (int)$_SERVER['USER_ID'];
+              $user = $this->pacienteService->ReadAllByIdPersona($user_id);
                 if (is_array($user)) {
                   //  echo json_encode($user);
               //$this->sendResponse(200, $user);
