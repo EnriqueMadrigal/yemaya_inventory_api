@@ -10,7 +10,6 @@ use App\Routing\Router;
 use App\Controllers\LoginController;
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
-use App\Controllers\PacienteController;
 use App\Controllers\ComponentsTextController;
 //use App\Entities\Paciente;
 
@@ -18,12 +17,10 @@ use App\Controllers\ComponentsTextController;
 
 use App\Services\UserService;
 use App\Services\AuthService;
-use App\Services\PacienteService;
 use App\Services\ComponentsTextService;
 
 
 use App\Repositories\UserRepository;
-use App\Repositories\PacienteRepository;
 use App\Repositories\ComponentsTextRepository;
 
 
@@ -42,14 +39,12 @@ error_reporting(E_ALL);
 $router = new Router();
 
 $userRepository = new UserRepository();
-$pacienteRepository = new PacienteRepository();
 $componentsTextRepository = new ComponentsTextRepository();
 
 
 $loginController = new LoginController(new UserService($userRepository));
 $authController = new AuthController(new AuthService($userRepository));
 $userController = new UserController(new UserService($userRepository));
-$pacienteController = new PacienteController(new PacienteService($pacienteRepository));
 $componentsTextController = new ComponentsTextController(new ComponentsTextService($componentsTextRepository));
 
 
@@ -71,13 +66,6 @@ $router->post('/api/login', fn() => $authController->Login());
 $router->post('/api/register', fn() => $loginController->register());
 $router->post('/api/register', fn() => $loginController->register());
 $router->get('/api/user/(\d+)', fn($id) => $userController->getById($id),[AuthMiddleware::class]);
-
-//Paciente
-$router->post('/api/paciente/', fn() => $pacienteController->insert(),[AuthMiddleware::class]);
-$router->get('/api/pacientes/', fn() => $pacienteController->getPacientes(),[AuthMiddleware::class]);
-$router->get('/api/paciente/(\d+)', fn($id) => $pacienteController->getPaciente($id),[AuthMiddleware::class]);
-$router->put('/api/paciente/', fn() => $pacienteController->update(),[AuthMiddleware::class]);
-$router->delete('/api/paciente/(\d+)', fn($id) => $pacienteController->delete($id),[AuthMiddleware::class]);
 
 //ComponentsText
 $router->get('/api/componentsText/(\d+)', fn($id) => $componentsTextController->getByIdProject($id),[AuthMiddleware::class]);

@@ -1,24 +1,24 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => 'd70c70eb2a88c840dbed1c34414496b7fb0eba22',
     'name' => 'enrique/phpapi',
   ),
   'versions' => 
   array (
     'enrique/phpapi' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => 'd70c70eb2a88c840dbed1c34414496b7fb0eba22',
     ),
     'firebase/php-jwt' => 
     array (
