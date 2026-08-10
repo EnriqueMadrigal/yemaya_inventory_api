@@ -11,6 +11,10 @@ use App\Controllers\LoginController;
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
 use App\Controllers\ComponentsTextController;
+use App\Controllers\UnidadBasicaController;
+use App\Controllers\UnidadMedidaController;
+use App\Controllers\ArticuloController;
+
 //use App\Entities\Paciente;
 
 
@@ -18,12 +22,16 @@ use App\Controllers\ComponentsTextController;
 use App\Services\UserService;
 use App\Services\AuthService;
 use App\Services\ComponentsTextService;
+use App\Services\UnidadBasicaService;
+use App\Services\UnidadMedidaService;
+use App\Services\ArticuloService;
 
 
 use App\Repositories\UserRepository;
 use App\Repositories\ComponentsTextRepository;
-
-
+use App\Repositories\UnidadBasicaRepository;
+use App\Repositories\UnidadMedidaRepository;
+use App\Repositories\ArticuloRepository;
 
 use App\Middleware\AuthMiddleware;
 use App\Middleware\ApiKeyMiddleware;
@@ -40,13 +48,17 @@ $router = new Router();
 
 $userRepository = new UserRepository();
 $componentsTextRepository = new ComponentsTextRepository();
-
+$unidadBasicaRepository = new UnidadBasicaRepository();
+$unidadMedidadRepository = new UnidadMedidaRepository();
+$articleRepository = new ArticuloRepository();
 
 $loginController = new LoginController(new UserService($userRepository));
 $authController = new AuthController(new AuthService($userRepository));
 $userController = new UserController(new UserService($userRepository));
 $componentsTextController = new ComponentsTextController(new ComponentsTextService($componentsTextRepository));
-
+$unidadBasicaController = new UnidadBasicaController(new UnidadBasicaService($unidadBasicaRepository));
+$unidadMedidaController = new UnidadMedidaController(new UnidadMedidaService($unidadMedidadRepository));
+$articleController = new ArticuloController(new ArticuloService($articleRepository));
 
 $authMiddleware = new AuthMiddleware();
 
@@ -69,6 +81,27 @@ $router->get('/api/user/(\d+)', fn($id) => $userController->getById($id),[AuthMi
 
 //ComponentsText
 $router->get('/api/componentsText/(\d+)', fn($id) => $componentsTextController->getByIdProject($id),[AuthMiddleware::class]);
+
+//UnidaBasica
+$router->post('/api/unidadbasica/', fn() => $unidadBasicaController->insert(),[AuthMiddleware::class]);
+$router->get('/api/unidadbasica/', fn() => $unidadBasicaController->getAll(),[AuthMiddleware::class]);
+$router->get('/api/unidadbasica/(\d+)', fn($id) => $unidadBasicaController->getById($id),[AuthMiddleware::class]);
+$router->put('/api/unidadbasica/', fn() => $unidadBasicaController->update(),[AuthMiddleware::class]);
+
+//UnidaMedidad
+$router->post('/api/unidadmedida/', fn() => $unidadMedidaController->insert(),[AuthMiddleware::class]);
+$router->get('/api/unidadmedida/', fn() => $unidadMedidaController->getAll(),[AuthMiddleware::class]);
+$router->get('/api/unidadmedida/(\d+)', fn($id) => $unidadMedidaController->getById($id),[AuthMiddleware::class]);
+$router->put('/api/unidadmedida/', fn() => $unidadMedidaController->update(),[AuthMiddleware::class]);
+
+//Articulo
+$router->post('/api/articulo/', fn() => $articleController->insert(),[AuthMiddleware::class]);
+$router->get('/api/articulo/', fn() => $articleController->getAll(),[AuthMiddleware::class]);
+$router->get('/api/articulo/(\d+)', fn($id) => $articleController->getById($id),[AuthMiddleware::class]);
+$router->put('/api/articulo/', fn() => $articleController->update(),[AuthMiddleware::class]);
+
+
+
 
 $router->dispatch();
 
