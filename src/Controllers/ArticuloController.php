@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Services\ArticuloService;
-use BaseController;
 
 
 class ArticuloController extends BaseController {

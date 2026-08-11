@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Entities;
 
 
-class UnidadBasica
+class Ubicacion
 {
     private ?int $id;
     private ?string $nombre;

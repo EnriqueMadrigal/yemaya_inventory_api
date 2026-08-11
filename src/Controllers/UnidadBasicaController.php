@@ -4,7 +4,7 @@ namespace App\Controllers;
 use App\Services\UnidadBasicaService;
 
 
-class UnidadBasicaController {
+class UnidadBasicaController extends BaseController{
 
 private UnidadBasicaService $unidadBasicaService;
 
@@ -12,22 +12,6 @@ public function __construct(UnidadBasicaService $unidadBasicaService){
 
     $this->unidadBasicaService = $unidadBasicaService;
 }
-
- private function sendResponse(int $status, array $data) {
-          http_response_code($status);
-          header('Content-Type: application/json');
-          echo json_encode($data);
-      }
-
- private function sendError(int $status, string $message) {
-          $this->sendResponse($status, ['error' => $message]);
-      }
-
-
-private function getRequestData(): array {
-          $input = file_get_contents('php://input');
-          return json_decode($input, true) ?? [];
-      }
 
 public function insert() {
         http_response_code(200);

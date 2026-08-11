@@ -1,30 +1,25 @@
 <?php
-
 namespace App\Controllers;
 
-use App\Services\UnidadMedidaService;
+use App\Services\FamiliaService;
 
 
-class UnidadMedidaController extends BaseController {
+class FamiliaController extends BaseController{
 
-private UnidadMedidaService $unidadMedidaService;
+private FamiliaService $FamiliaService;
 
+public function __construct(FamiliaService $FamiliaService){
 
-public function __construct(UnidadMedidaService $unidadMedidaService)
-{
-    $this->unidadMedidaService = $unidadMedidaService;
+    $this->FamiliaService = $FamiliaService;
 }
 
-
+ 
 public function insert() {
-
-http_response_code(200);
-
-
- header('Content-Type: application/json');
+        http_response_code(200);
+        header('Content-Type: application/json');
           $data = $this->getRequestData();
 
-          $return = $this->unidadMedidaService->insert($data);
+          $return = $this->FamiliaService->createFamilia($data);
           
           if (is_numeric($return))
             {
@@ -42,14 +37,15 @@ http_response_code(200);
         ]);
 
             }
+        
+       
+    }
+      
 
-}
-
-
-public function getAll() {
+    public function getAll() {
 
     try {
-        $unidades = $this->unidadMedidaService->getAll();
+        $unidades = $this->FamiliaService->getAll();
 
         if (is_array($unidades)) {
             $this->sendResponse(200,$unidades);
@@ -61,13 +57,14 @@ public function getAll() {
 
     }
 
- public function update() {
+
+    public function update() {
 
    http_response_code(200);
         header('Content-Type: application/json');
           $data = $this->getRequestData();
 
-          $return = $this->unidadMedidaService->update($data);
+          $return = $this->FamiliaService->updateFamilia($data);
 
       if ($return)
             {
@@ -89,11 +86,10 @@ public function getAll() {
 
     }
 
-
- public function getById(string $id) {
+    public function getById(string $id) {
         try{
 
-        $unidad = $this->unidadMedidaService->getById($id);
+        $unidad = $this->FamiliaService->getById($id);
         $this->sendResponse(200,$unidad->toArray());
 
           } catch (\Exception $e) {
@@ -102,7 +98,6 @@ public function getAll() {
 
 
     }
-
 
 
 }

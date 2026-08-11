@@ -14,6 +14,9 @@ use App\Controllers\ComponentsTextController;
 use App\Controllers\UnidadBasicaController;
 use App\Controllers\UnidadMedidaController;
 use App\Controllers\ArticuloController;
+use App\Controllers\FamiliaController;
+use App\Controllers\UbicacionController;
+
 
 //use App\Entities\Paciente;
 
@@ -25,6 +28,9 @@ use App\Services\ComponentsTextService;
 use App\Services\UnidadBasicaService;
 use App\Services\UnidadMedidaService;
 use App\Services\ArticuloService;
+use App\Services\FamiliaService;
+use App\Services\UbicacionService;
+
 
 
 use App\Repositories\UserRepository;
@@ -32,6 +38,9 @@ use App\Repositories\ComponentsTextRepository;
 use App\Repositories\UnidadBasicaRepository;
 use App\Repositories\UnidadMedidaRepository;
 use App\Repositories\ArticuloRepository;
+use App\Repositories\FamiliaRepository;
+use App\Repositories\UbicacionRepository;
+
 
 use App\Middleware\AuthMiddleware;
 use App\Middleware\ApiKeyMiddleware;
@@ -51,6 +60,10 @@ $componentsTextRepository = new ComponentsTextRepository();
 $unidadBasicaRepository = new UnidadBasicaRepository();
 $unidadMedidadRepository = new UnidadMedidaRepository();
 $articleRepository = new ArticuloRepository();
+$familiaRepository = new FamiliaRepository();
+$ubicacionRepository = new UbicacionRepository();
+
+
 
 $loginController = new LoginController(new UserService($userRepository));
 $authController = new AuthController(new AuthService($userRepository));
@@ -59,6 +72,10 @@ $componentsTextController = new ComponentsTextController(new ComponentsTextServi
 $unidadBasicaController = new UnidadBasicaController(new UnidadBasicaService($unidadBasicaRepository));
 $unidadMedidaController = new UnidadMedidaController(new UnidadMedidaService($unidadMedidadRepository));
 $articleController = new ArticuloController(new ArticuloService($articleRepository));
+$familiaController = new FamiliaController(new FamiliaService($familiaRepository));
+$ubicacionController = new UbicacionController(new UbicacionService($ubicacionRepository));
+
+
 
 $authMiddleware = new AuthMiddleware();
 
@@ -100,6 +117,18 @@ $router->get('/api/articulo/', fn() => $articleController->getAll(),[AuthMiddlew
 $router->get('/api/articulo/(\d+)', fn($id) => $articleController->getById($id),[AuthMiddleware::class]);
 $router->put('/api/articulo/', fn() => $articleController->update(),[AuthMiddleware::class]);
 
+
+//Ubicacion
+$router->post('/api/ubicacion/', fn() => $ubicacionController->insert(),[AuthMiddleware::class]);
+$router->get('/api/ubicacion/', fn() => $ubicacionController->getAll(),[AuthMiddleware::class]);
+$router->get('/api/ubicacion/(\d+)', fn($id) => $ubicacionController->getById($id),[AuthMiddleware::class]);
+$router->put('/api/ubicacion/', fn() => $ubicacionController->update(),[AuthMiddleware::class]);
+
+//Familia
+$router->post('/api/familia/', fn() => $familiaController->insert(),[AuthMiddleware::class]);
+$router->get('/api/familia/', fn() => $familiaController->getAll(),[AuthMiddleware::class]);
+$router->get('/api/familia/(\d+)', fn($id) => $familiaController->getById($id),[AuthMiddleware::class]);
+$router->put('/api/familia/', fn() => $familiaController->update(),[AuthMiddleware::class]);
 
 
 
