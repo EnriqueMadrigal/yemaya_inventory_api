@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Entities\Familia;
+use stdClass;
 
 class FamiliaRepository extends BaseRepository
 {
@@ -25,18 +26,25 @@ class FamiliaRepository extends BaseRepository
             ORDER BY nombre ASC
         ";
 
+       
         $statement = $this->pdo->prepare($sql);
         $statement->execute();
 
-        $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        //$rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-        $result = [];
 
-        foreach ($rows as $row) {
-            $result[] = $this->mapToEntity($row);
-        }
 
-        return $result;
+        $out = [];
+
+    while ($row = $statement->fetch()) {
+           
+            $newClass = new stdClass();
+            $newClass->id = (int)$row['id'];
+            $newClass->nombre = (string)$row['nombre'];
+            $out[] = $newClass;
+       }
+     
+        return $out;
     }
 
     /**
@@ -123,7 +131,7 @@ class FamiliaRepository extends BaseRepository
         $sql = "
             UPDATE {$this->table}
             SET
-                nombre = :nombre,
+                nombre = :nombre
                 
             WHERE id = :id
         ";
