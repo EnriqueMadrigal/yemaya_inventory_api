@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Entities\UnidadMedida;
+use stdClass;
 
 class UnidadMedidaRepository extends BaseRepository
 {
@@ -20,25 +21,41 @@ class UnidadMedidaRepository extends BaseRepository
         $sql = "
             SELECT
                 id,
-                nombre_medida,
+                nombre,
                 id_unidad_basica,
                 cantidad_medida
             FROM {$this->table}
-            ORDER BY nombre_medida ASC
+            ORDER BY nombre ASC
         ";
 
         $statement = $this->pdo->prepare($sql);
         $statement->execute();
 
-        $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
+           $out = [];
 
-        $result = [];
+    while ($row = $statement->fetch()) {
+           
+            $newClass = new stdClass();
+            $newClass->id = (int)$row['id'];
+            $newClass->nombre = (string)$row['nombre'];
+            $newClass->id_unidad_basica = (int)$row['id_unidad_basica'];
+            $newClass->cantidad_medida = (int)$row['cantidad_medida'];
 
-        foreach ($rows as $row) {
-            $result[] = $this->mapToEntity($row);
-        }
+            $out[] = $newClass;
+       }
+     
+        return $out;
 
-        return $result;
+
+       // $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        //$result = [];
+
+        //foreach ($rows as $row) {
+        //    $result[] = $this->mapToEntity($row);
+        //}
+
+        //return $result;
     }
 
     /**
@@ -49,7 +66,7 @@ class UnidadMedidaRepository extends BaseRepository
         $sql = "
             SELECT
                 id,
-                nombre_medida,
+                nombre,
                 id_unidad_basica,
                 cantidad_medida
             FROM {$this->table}
@@ -86,12 +103,12 @@ class UnidadMedidaRepository extends BaseRepository
         $sql = "
             SELECT
                 id,
-                nombre_medida,
+                nombre,
                 id_unidad_basica,
                 cantidad_medida
             FROM {$this->table}
             WHERE id_unidad_basica = :id_unidad_basica
-            ORDER BY nombre_medida ASC
+            ORDER BY nombre ASC
         ";
 
         $statement = $this->pdo->prepare($sql);
@@ -123,13 +140,13 @@ class UnidadMedidaRepository extends BaseRepository
         $sql = "
             INSERT INTO {$this->table}
             (
-                nombre_medida,
+                nombre,
                 id_unidad_basica,
                 cantidad_medida
             )
             VALUES
             (
-                :nombre_medida,
+                :nombre,
                 :id_unidad_basica,
                 :cantidad_medida
             )
@@ -138,7 +155,7 @@ class UnidadMedidaRepository extends BaseRepository
         $statement = $this->pdo->prepare($sql);
 
         $statement->bindValue(
-            ':nombre_medida',
+            ':nombre',
             $unidadMedida->getNombreMedida(),
             $unidadMedida->getNombreMedida() === null
                 ? \PDO::PARAM_NULL
@@ -147,13 +164,13 @@ class UnidadMedidaRepository extends BaseRepository
 
         $statement->bindValue(
             ':id_unidad_basica',
-            $unidadMedida->getIdUnidadBasica(),
+            $unidadMedida->getid_unidad_basica(),
             \PDO::PARAM_INT
         );
 
         $statement->bindValue(
             ':cantidad_medida',
-            $unidadMedida->getCantidadMedida()
+            $unidadMedida->getcantidad_medida()
         );
 
         $statement->execute();
@@ -179,7 +196,7 @@ class UnidadMedidaRepository extends BaseRepository
         $sql = "
             UPDATE {$this->table}
             SET
-                nombre_medida = :nombre_medida,
+                nombre = :nombre,
                 id_unidad_basica = :id_unidad_basica,
                 cantidad_medida = :cantidad_medida
             WHERE id = :id
@@ -194,7 +211,7 @@ class UnidadMedidaRepository extends BaseRepository
         );
 
         $statement->bindValue(
-            ':nombre_medida',
+            ':nombre',
             $unidadMedida->getNombreMedida(),
             $unidadMedida->getNombreMedida() === null
                 ? \PDO::PARAM_NULL
@@ -203,13 +220,13 @@ class UnidadMedidaRepository extends BaseRepository
 
         $statement->bindValue(
             ':id_unidad_basica',
-            $unidadMedida->getIdUnidadBasica(),
+            $unidadMedida->getid_unidad_basica(),
             \PDO::PARAM_INT
         );
 
         $statement->bindValue(
             ':cantidad_medida',
-            $unidadMedida->getCantidadMedida()
+            $unidadMedida->getcantidad_medida()
         );
 
         $statement->execute();
@@ -250,7 +267,7 @@ class UnidadMedidaRepository extends BaseRepository
                 ? (int) $row['id']
                 : null,
 
-            $row['nombre_medida'] ?? null,
+            $row['nombre'] ?? null,
 
             isset($row['id_unidad_basica'])
                 ? (int) $row['id_unidad_basica']

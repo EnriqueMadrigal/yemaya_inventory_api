@@ -6,10 +6,11 @@ namespace App\Repositories;
 
 use App\Entities\UnidadBasica;
 use PDO;
+use stdClass;
 
 class UnidadBasicaRepository extends BaseRepository
 {
-    private string $table = 'unida_basica';  
+    private string $table = 'unidad_basica';  
 
     /**
      * @return UnidadBasica[]
@@ -27,15 +28,19 @@ class UnidadBasicaRepository extends BaseRepository
         $statement = $this->pdo->prepare($sql);
         $statement->execute();
 
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        //$rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        $result = [];
+        $out = [];
 
-        foreach ($rows as $row) {
-            $result[] = $this->mapToEntity($row);
-        }
-
-        return $result;
+    while ($row = $statement->fetch()) {
+           
+            $newClass = new stdClass();
+            $newClass->id = (int)$row['id'];
+            $newClass->nombre = (string)$row['nombre'];
+            $out[] = $newClass;
+       }
+     
+        return $out;
     }
 
     public function findById(int $id): ?UnidadBasica

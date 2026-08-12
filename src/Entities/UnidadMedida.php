@@ -8,19 +8,19 @@ class UnidadMedida
 {
     private ?int $id;
     private ?string $nombreMedida;
-    private int $idUnidadBasica;
-    private float $cantidadMedida;
+    private int $id_unidad_basica;
+    private float $cantidad_medida;
 
     public function __construct(
         ?int $id = null,
         ?string $nombreMedida = null,
-        int $idUnidadBasica = 1,
-        float $cantidadMedida = 0.0
+        int $id_unidad_basica = 1,
+        float $cantidad_medida = 0.0
     ) {
         $this->id = $id;
         $this->nombreMedida = $nombreMedida;
-        $this->idUnidadBasica = $idUnidadBasica;
-        $this->cantidadMedida = $cantidadMedida;
+        $this->id_unidad_basica = $id_unidad_basica;
+        $this->cantidad_medida = $cantidad_medida;
     }
 
     public function getId(): ?int
@@ -43,24 +43,24 @@ class UnidadMedida
         $this->nombreMedida = $nombreMedida;
     }
 
-    public function getIdUnidadBasica(): int
+    public function getid_unidad_basica(): int
     {
-        return $this->idUnidadBasica;
+        return $this->id_unidad_basica;
     }
 
-    public function setIdUnidadBasica(int $idUnidadBasica): void
+    public function setid_unidad_basica(int $id_unidad_basica): void
     {
-        $this->idUnidadBasica = $idUnidadBasica;
+        $this->id_unidad_basica = $id_unidad_basica;
     }
 
-    public function getCantidadMedida(): float
+    public function getcantidad_medida(): float
     {
-        return $this->cantidadMedida;
+        return $this->cantidad_medida;
     }
 
-    public function setCantidadMedida(float $cantidadMedida): void
+    public function setcantidad_medida(float $cantidad_medida): void
     {
-        $this->cantidadMedida = $cantidadMedida;
+        $this->cantidad_medida = $cantidad_medida;
     }
 
  public function toArray(): array
@@ -68,8 +68,8 @@ class UnidadMedida
     return [
         'id'        => $this->id,
         'nombre'    => $this->nombreMedida,
-        'idUnidadBasica'    => $this->idUnidadBasica,
-        'cantidad'  => $this->cantidadMedida
+        'id_unidad_basica'    => $this->id_unidad_basica,
+        'cantidad_medida'  => $this->cantidad_medida
     ];
     }
 

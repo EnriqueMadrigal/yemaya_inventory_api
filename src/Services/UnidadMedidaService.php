@@ -17,8 +17,8 @@ public function __construct(UnidadMedidaRepository $unidadMedidaRepository)
 public function insert(Array $data) {
 $newUnidadMedida = new UnidadMedida();
 $newUnidadMedida->setNombreMedida($data['nombre']);
-$newUnidadMedida->setIdUnidadBasica($data['idUnidadBasica']);
-$newUnidadMedida->setCantidadMedida($data['cantidad']);
+$newUnidadMedida->setid_unidad_basica($data['id_unidad_basica']);
+$newUnidadMedida->setcantidad_medida($data['cantidad_medida']);
 
 return $this->unidadMedidaRepository->save($newUnidadMedida);
 
@@ -40,8 +40,8 @@ public function update(Array $data) {
 
         $newUnidadMedida = new UnidadMedida();
         $newUnidadMedida->setNombreMedida($data['nombre']);
-        $newUnidadMedida->setIdUnidadBasica($data['idUnidadBasica']);
-        $newUnidadMedida->setCantidadMedida($data['cantidad']);
+        $newUnidadMedida->setid_unidad_basica($data['id_unidad_basica']);
+        $newUnidadMedida->setcantidad_medida($data['cantidad_medida']);
         $newUnidadMedida->setId($id);
 
         return $this->unidadMedidaRepository->update($newUnidadMedida);
