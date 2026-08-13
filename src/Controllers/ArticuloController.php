@@ -51,7 +51,7 @@ public function getAll() {
         $unidades = $this->articleService->getAll();
 
         if (is_array($unidades)) {
-            $this->sendResponse(200,$unidades);
+            $this->sendResponse(200, $unidades);
         }
         
         } catch (\Exception $e) {

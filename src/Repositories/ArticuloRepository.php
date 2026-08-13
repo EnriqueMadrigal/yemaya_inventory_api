@@ -469,8 +469,28 @@ class ArticuloRepository extends BaseRepository
      * Convert a database row to an Articulo entity.
      */
     private function mapToEntity(array $row): Articulo
-    {
-        return new Articulo(
+    {   
+        $articulo = new Articulo();
+
+        $articulo->setId((int)($row['id'] ?? null));
+        $articulo->setIdFamilia((int)($row['id_familia'] ?? 1));
+        $articulo->setIdUbicacion((int)($row['id_ubicacion'] ?? 1));
+        $articulo->setNombreProducto($row['nombre_producto'] ?? '');
+        $articulo->setIdUnidad((int)($row['id_unidad'] ?? 1));
+        $articulo->setIdMarca((int)($row['id_marca'] ?? 1));
+        $articulo->setCantidad((float)($row['cantidad'] ?? 0.0));
+        $articulo->setCosto((float)($row['costo'] ?? 0.0));
+        $articulo->setValorInventario((float)($row['valor_inventario'] ?? 0.0));
+        $articulo->setMinimaCantidad((float)($row['minima_cantidad'] ?? 0.0));
+        $articulo->setCantidadAnterior((float)($row['cantidad_anterior'] ?? 0.0));
+        $articulo->setUpdatedBy((int)($row['updated_by'] ?? 0));
+        $articulo->setCreatedAt($row['created_at'] ?? null);
+        $articulo->setUpdatedAt($row['updated_at'] ?? null);
+
+        return $articulo;
+
+
+    /*       return new Articulo(
             isset($row['id'])
                 ? (int) $row['id']
                 : null,
@@ -521,6 +541,8 @@ class ArticuloRepository extends BaseRepository
 
             $row['updated_at'] ?? null
         );
+        */
+
     }
 
     /**
