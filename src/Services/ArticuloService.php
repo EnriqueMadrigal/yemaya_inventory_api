@@ -20,10 +20,11 @@ public function insert(Array $data) {
  $user_id = (int)$_SERVER['USER_ID'];
 
 $articulo = new Articulo();
-$articulo->setIdFamilia($data['idFamilia']);
-$articulo->setIdUbicacion($data['idUbicacion']);
-$articulo->setNombreProducto($data['nombre']);
-$articulo->setIdUnidad($data['idUnidad']);
+$articulo->setIdFamilia($data['id_familia']);
+$articulo->setIdUbicacion($data['id_ubicacion']);
+$articulo->setNombreProducto($data['nombre_producto']);
+$articulo->setIdUnidad($data['id_unidad']);
+$articulo->setIdMarca($data['id_marca']);
 $articulo->setCantidad($data['cantidad']);
 $articulo->setCosto($data['costo']);
 $articulo->setValorInventario($data['valor_inventario']);
@@ -55,10 +56,11 @@ $id = (int) $data['id'];
 
 
 $articulo = new Articulo();
-$articulo->setIdFamilia($data['idFamilia']);
-$articulo->setIdUbicacion($data['idUbicacion']);
-$articulo->setNombreProducto($data['nombre']);
-$articulo->setIdUnidad($data['idUnidad']);
+$articulo->setIdFamilia($data['id_familia']);
+$articulo->setIdUbicacion($data['id_ubicacion']);
+$articulo->setNombreProducto($data['nombre_producto']);
+$articulo->setIdUnidad($data['id_unidad']);
+$articulo->setIdMarca($data['id_marca']);
 $articulo->setCantidad($data['cantidad']);
 $articulo->setCosto($data['costo']);
 $articulo->setValorInventario($data['valor_inventario']);

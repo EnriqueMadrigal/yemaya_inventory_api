@@ -16,6 +16,7 @@ use App\Controllers\UnidadMedidaController;
 use App\Controllers\ArticuloController;
 use App\Controllers\FamiliaController;
 use App\Controllers\UbicacionController;
+use App\Controllers\MarcaController;
 
 
 //use App\Entities\Paciente;
@@ -30,6 +31,7 @@ use App\Services\UnidadMedidaService;
 use App\Services\ArticuloService;
 use App\Services\FamiliaService;
 use App\Services\UbicacionService;
+use App\Services\MarcaService;
 
 
 
@@ -40,6 +42,7 @@ use App\Repositories\UnidadMedidaRepository;
 use App\Repositories\ArticuloRepository;
 use App\Repositories\FamiliaRepository;
 use App\Repositories\UbicacionRepository;
+use App\Repositories\MarcaRepository;
 
 
 use App\Middleware\AuthMiddleware;
@@ -62,6 +65,7 @@ $unidadMedidadRepository = new UnidadMedidaRepository();
 $articleRepository = new ArticuloRepository();
 $familiaRepository = new FamiliaRepository();
 $ubicacionRepository = new UbicacionRepository();
+$marcaRepository = new MarcaRepository();
 
 
 
@@ -74,6 +78,7 @@ $unidadMedidaController = new UnidadMedidaController(new UnidadMedidaService($un
 $articleController = new ArticuloController(new ArticuloService($articleRepository));
 $familiaController = new FamiliaController(new FamiliaService($familiaRepository));
 $ubicacionController = new UbicacionController(new UbicacionService($ubicacionRepository));
+$marcaController = new MarcaController(new MarcaService($marcaRepository));
 
 
 
@@ -130,6 +135,11 @@ $router->get('/api/familia/', fn() => $familiaController->getAll(),[AuthMiddlewa
 $router->get('/api/familia/(\d+)', fn($id) => $familiaController->getById($id),[AuthMiddleware::class]);
 $router->put('/api/familia/', fn() => $familiaController->update(),[AuthMiddleware::class]);
 
+//marca
+$router->post('/api/marca/', fn() => $marcaController->insert(),[AuthMiddleware::class]);
+$router->get('/api/marca/', fn() => $marcaController->getAll(),[AuthMiddleware::class]);
+$router->get('/api/marca/(\d+)', fn($id) => $marcaController->getById($id),[AuthMiddleware::class]);
+$router->put('/api/marca/', fn() => $marcaController->update(),[AuthMiddleware::class]);
 
 
 $router->dispatch();

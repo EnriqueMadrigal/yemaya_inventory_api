@@ -28,6 +28,8 @@ class Articulo
 
     private int $updatedBy;
 
+    private int $idMarca;
+
     private ?string $createdAt;
 
     private ?string $updatedAt;
@@ -38,6 +40,7 @@ class Articulo
         int $idUbicacion = 1,
         ?string $nombreProducto = null,
         int $idUnidad = 1,
+        int $idMarca = 1,
         float $cantidad = 0.0,
         float $costo = 0.0,
         float $valorInventario = 0.0,
@@ -52,6 +55,7 @@ class Articulo
         $this->idUbicacion = $idUbicacion;
         $this->nombreProducto = $nombreProducto;
         $this->idUnidad = $idUnidad;
+        $this->idMarca = $idMarca;
         $this->cantidad = $cantidad;
         $this->costo = $costo;
         $this->valorInventario = $valorInventario;
@@ -111,6 +115,17 @@ class Articulo
     {
         $this->idUnidad = $idUnidad;
     }
+
+    public function getIdMarca(): int
+    {
+        return $this->idMarca;
+    }
+
+    public function setIdMarca(int $idMarca): void
+    {
+        $this->idMarca = $idMarca;
+    }
+
 
     public function getCantidad(): float
     {
@@ -201,6 +216,7 @@ class Articulo
             'id_ubicacion' => $this->getIdUbicacion(),
             'nombre_producto' => $this->getNombreProducto(),
             'id_unidad' => $this->getIdUnidad(),
+            'id_marca' => $this->getIdMarca(),
             'cantidad' => $this->getCantidad(),
             'costo' => $this->getCosto(),
             'valor_inventario' => $this->getValorInventario(),

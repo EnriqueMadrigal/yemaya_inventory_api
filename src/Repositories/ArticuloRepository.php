@@ -24,6 +24,7 @@ class ArticuloRepository extends BaseRepository
                 id_ubicacion,
                 nombre_producto,
                 id_unidad,
+                id_marca,
                 cantidad,
                 costo,
                 valor_inventario,
@@ -62,6 +63,7 @@ class ArticuloRepository extends BaseRepository
                 id_ubicacion,
                 nombre_producto,
                 id_unidad,
+                id_marca,
                 cantidad,
                 costo,
                 valor_inventario,
@@ -108,6 +110,7 @@ class ArticuloRepository extends BaseRepository
                 id_ubicacion,
                 nombre_producto,
                 id_unidad,
+                id_marca,
                 cantidad,
                 costo,
                 valor_inventario,
@@ -156,6 +159,7 @@ class ArticuloRepository extends BaseRepository
                 id_ubicacion,
                 nombre_producto,
                 id_unidad,
+                id_marca,
                 cantidad,
                 costo,
                 valor_inventario,
@@ -202,6 +206,7 @@ class ArticuloRepository extends BaseRepository
                 id_ubicacion,
                 nombre_producto,
                 id_unidad,
+                id_marca,
                 cantidad,
                 costo,
                 valor_inventario,
@@ -217,13 +222,14 @@ class ArticuloRepository extends BaseRepository
                 :id_ubicacion,
                 :nombre_producto,
                 :id_unidad,
+                :id_marca,
                 :cantidad,
                 :costo,
                 :valor_inventario,
                 :minima_cantidad,
                 :cantidad_anterior,
                 :updated_by,
-                :created_at,
+                NOW(),
                 :updated_at
             )
         ";
@@ -251,6 +257,12 @@ class ArticuloRepository extends BaseRepository
         $statement->bindValue(
             ':id_unidad',
             $articulo->getIdUnidad(),
+            \PDO::PARAM_INT
+        );
+
+         $statement->bindValue(
+            ':id_marca',
+            $articulo->getIdMarca(),
             \PDO::PARAM_INT
         );
 
@@ -285,11 +297,7 @@ class ArticuloRepository extends BaseRepository
             \PDO::PARAM_INT
         );
 
-        $statement->bindValue(
-            ':created_at',
-            $articulo->getCreatedAt(),
-            \PDO::PARAM_STR
-        );
+       
 
         $this->bindNullableString(
             $statement,
@@ -324,13 +332,14 @@ class ArticuloRepository extends BaseRepository
                 id_ubicacion = :id_ubicacion,
                 nombre_producto = :nombre_producto,
                 id_unidad = :id_unidad,
+                id_marca = :id_marca,
                 cantidad = :cantidad,
                 costo = :costo,
                 valor_inventario = :valor_inventario,
                 minima_cantidad = :minima_cantidad,
                 cantidad_anterior = :cantidad_anterior,
                 updated_by = :updated_by,
-                updated_at = :updated_at
+                updated_at = NOW()
             WHERE id = :id
         ";
 
@@ -366,6 +375,12 @@ class ArticuloRepository extends BaseRepository
             \PDO::PARAM_INT
         );
 
+          $statement->bindValue(
+            ':id_marca',
+            $articulo->getIdMarca(),
+            \PDO::PARAM_INT
+        );
+
         $statement->bindValue(
             ':cantidad',
             $articulo->getCantidad()
@@ -397,11 +412,7 @@ class ArticuloRepository extends BaseRepository
             \PDO::PARAM_INT
         );
 
-        $this->bindNullableString(
-            $statement,
-            ':updated_at',
-            $articulo->getUpdatedAt()
-        );
+      
 
         $statement->execute();
 
@@ -442,6 +453,7 @@ class ArticuloRepository extends BaseRepository
             'id_ubicacion' => $articulo->getIdUbicacion(),
             'nombre_producto' => $articulo->getNombreProducto(),
             'id_unidad' => $articulo->getIdUnidad(),
+            'id_marca' => $articulo->getIdMarca(),
             'cantidad' => $articulo->getCantidad(),
             'costo' => $articulo->getCosto(),
             'valor_inventario' => $articulo->getValorInventario(),
@@ -475,6 +487,10 @@ class ArticuloRepository extends BaseRepository
 
             isset($row['id_unidad'])
                 ? (int) $row['id_unidad']
+                : 1,
+            
+            isset($row['id_marca'])
+                ? (int) $row['id_marca']
                 : 1,
 
             isset($row['cantidad'])
