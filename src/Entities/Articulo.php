@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
-class Articulo
+use JsonSerializable;
+
+class Articulo implements JsonSerializable
 {
     private ?int $id;
 
@@ -227,5 +229,46 @@ class Articulo
             'updated_at' => $this->getUpdatedAt()
         ];
     }
+
+ public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'id_familia' => $this->idFamilia,
+            'id_ubicacion' => $this->idUbicacion,
+            'id_unidad' => $this->idUnidad,
+            'id_marca' => $this->idMarca,
+            'nombre_producto' => $this->nombreProducto,
+            'cantidad' => $this->idMarca,
+            'costo' => $this->costo,
+            'valor_inventario' => $this->valorInventario,
+            'minima_cantidad' => $this->minimaCantidad,
+            'cantidad_anterior' => $this->cantidadAnterior,
+            'updated_by' => $this->updatedBy,
+            'created_at' => $this->toDateTime($this->createdAt) ?  ($this->toDateTime($this->createdAt))->format('Y-m-d H:i:s') : 'null',
+            'updated_at' => $this->toDateTime($this->updatedAt) ?  ($this->toDateTime($this->updatedAt))->format('Y-m-d H:i:s') : 'null',
+        ];
+    }
+
+
+ private static function toNullableDateTime(mixed $v): ?\DateTimeInterface
+    {
+        if ($v === null || $v === '') return null;
+        if ($v instanceof \DateTimeInterface) return $v;
+        try {
+            // Expecting 'Y-m-d H:i:s'
+            return new \DateTimeImmutable((string)$v);
+        } catch (\Exception) {
+            return null;
+        }
+    }
+    private static function toDateTime(mixed $v): ?\DateTimeInterface
+    {
+        $dt = self::toNullableDateTime($v);
+        return $dt;
+    }
+
+
+
 
 }
