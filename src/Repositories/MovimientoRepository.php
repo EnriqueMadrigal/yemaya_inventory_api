@@ -40,7 +40,7 @@ class MovimientoRepository extends BaseRepository
             'id' => $id
         ]);
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         if ($row === false) {
             return null;
@@ -64,7 +64,7 @@ class MovimientoRepository extends BaseRepository
 
         $entities = [];
 
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $entities[] = $this->mapToEntity($row);
         }
 
@@ -90,7 +90,7 @@ class MovimientoRepository extends BaseRepository
 
         $entities = [];
 
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $entities[] = $this->mapToEntity($row);
         }
 
@@ -116,7 +116,7 @@ class MovimientoRepository extends BaseRepository
                     :cantidad,
                     :tipo,
                     :updated_by,
-                    :created_at,
+                    NOW(),
                     :observaciones
                 )";
 
@@ -128,7 +128,7 @@ class MovimientoRepository extends BaseRepository
             'cantidad' => $movimiento->getCantidad(),
             'tipo' => $movimiento->getTipo(),
             'updated_by' => $movimiento->getUpdatedBy(),
-            'created_at' => $movimiento->getCreatedAt(),
+            //'created_at' => $movimiento->getCreatedAt(),
             'observaciones' => $movimiento->getObservaciones()
         ]);
 
@@ -201,7 +201,7 @@ class MovimientoRepository extends BaseRepository
 
         $entities = [];
 
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $entities[] = $this->mapToEntity($row);
         }
 

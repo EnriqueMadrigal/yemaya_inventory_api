@@ -2,7 +2,9 @@
 
 namespace App\Entities;
 
-class Movimiento
+use JsonSerializable;
+
+class Movimiento implements JsonSerializable
 {
     private int $id;
     private int $id_articulo;
@@ -122,8 +124,43 @@ class Movimiento
             'cantidad' => $this->cantidad,
             'tipo' => $this->tipo,
             'updated_by' => $this->updated_by,
-            'created_at' => $this->created_at,
+            'created_at' => $this->toDateTime($this->created_at) ?  ($this->toDateTime($this->created_at))->format('Y-m-d H:i:s') : 'null',
             'observaciones' => $this->observaciones
         ];
     }
+
+private static function toNullableDateTime(mixed $v): ?\DateTimeInterface
+    {
+        if ($v === null || $v === '') return null;
+        if ($v instanceof \DateTimeInterface) return $v;
+        try {
+            // Expecting 'Y-m-d H:i:s'
+            return new \DateTimeImmutable((string)$v);
+        } catch (\Exception) {
+            return null;
+        }
+    }
+    private static function toDateTime(mixed $v): ?\DateTimeInterface
+    {
+        $dt = self::toNullableDateTime($v);
+        return $dt;
+    }
+
+public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'id_articulo' => $this->id_articulo,
+            'id_medida' => $this->id_medida,
+            'cantidad' => $this->cantidad,
+            'tipo' => $this->tipo,
+            'updated_by' => $this->updated_by,
+            'created_at' => $this->toDateTime($this->created_at) ?  ($this->toDateTime($this->created_at))->format('Y-m-d H:i:s') : 'null',
+            'observaciones' => $this->observaciones
+            
+        ];
+    }
+
+
+
 }

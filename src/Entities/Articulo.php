@@ -239,7 +239,7 @@ class Articulo implements JsonSerializable
             'id_unidad' => $this->idUnidad,
             'id_marca' => $this->idMarca,
             'nombre_producto' => $this->nombreProducto,
-            'cantidad' => $this->idMarca,
+            'cantidad' => $this->cantidad,
             'costo' => $this->costo,
             'valor_inventario' => $this->valorInventario,
             'minima_cantidad' => $this->minimaCantidad,

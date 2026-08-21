@@ -17,6 +17,7 @@ use App\Controllers\ArticuloController;
 use App\Controllers\FamiliaController;
 use App\Controllers\UbicacionController;
 use App\Controllers\MarcaController;
+use App\Controllers\MovimientoController;
 
 
 //use App\Entities\Paciente;
@@ -32,6 +33,7 @@ use App\Services\ArticuloService;
 use App\Services\FamiliaService;
 use App\Services\UbicacionService;
 use App\Services\MarcaService;
+use App\Services\MovimientoService;
 
 
 
@@ -43,6 +45,7 @@ use App\Repositories\ArticuloRepository;
 use App\Repositories\FamiliaRepository;
 use App\Repositories\UbicacionRepository;
 use App\Repositories\MarcaRepository;
+use App\Repositories\MovimientoRepository;
 
 
 use App\Middleware\AuthMiddleware;
@@ -66,6 +69,7 @@ $articleRepository = new ArticuloRepository();
 $familiaRepository = new FamiliaRepository();
 $ubicacionRepository = new UbicacionRepository();
 $marcaRepository = new MarcaRepository();
+$movimientoRepository = new MovimientoRepository();
 
 
 
@@ -79,8 +83,7 @@ $articleController = new ArticuloController(new ArticuloService($articleReposito
 $familiaController = new FamiliaController(new FamiliaService($familiaRepository));
 $ubicacionController = new UbicacionController(new UbicacionService($ubicacionRepository));
 $marcaController = new MarcaController(new MarcaService($marcaRepository));
-
-
+$movimientoController = new MovimientoController(new MovimientoService($movimientoRepository));
 
 $authMiddleware = new AuthMiddleware();
 
@@ -140,6 +143,13 @@ $router->post('/api/marca/', fn() => $marcaController->insert(),[AuthMiddleware:
 $router->get('/api/marca/', fn() => $marcaController->getAll(),[AuthMiddleware::class]);
 $router->get('/api/marca/(\d+)', fn($id) => $marcaController->getById($id),[AuthMiddleware::class]);
 $router->put('/api/marca/', fn() => $marcaController->update(),[AuthMiddleware::class]);
+
+
+//movimiento
+$router->post('/api/movimiento/', fn() => $movimientoController->insert(),[AuthMiddleware::class]);
+$router->get('/api/movimiento/', fn() => $movimientoController->getAll(),[AuthMiddleware::class]);
+$router->get('/api/movimiento/(\d+)', fn($id) => $movimientoController->getById($id),[AuthMiddleware::class]);
+
 
 
 $router->dispatch();
