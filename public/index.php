@@ -148,8 +148,7 @@ $router->put('/api/marca/', fn() => $marcaController->update(),[AuthMiddleware::
 //movimiento
 $router->post('/api/movimiento/', fn() => $movimientoController->insert(),[AuthMiddleware::class]);
 $router->get('/api/movimiento/', fn() => $movimientoController->getAll(),[AuthMiddleware::class]);
-$router->get('/api/movimiento/(\d+)', fn($id) => $movimientoController->getById($id),[AuthMiddleware::class]);
-
+$router->get('/api/movimiento/(\d+)', fn($id) => $movimientoController->getByTipo($id),[AuthMiddleware::class]);
 
 
 $router->dispatch();

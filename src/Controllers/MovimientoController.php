@@ -75,5 +75,20 @@ public function getById(string $id) {
     }
 
 
+public function getByTipo(string $tipo) {
+
+    try {
+        $unidades = $this->movimientoService->getByTipo($tipo);
+
+        if (is_array($unidades)) {
+            $this->sendResponse(200, $unidades);
+        }
+        
+        } catch (\Exception $e) {
+              $this->sendError(400, $e->getMessage());
+          }
+
+    }
+
 
 }

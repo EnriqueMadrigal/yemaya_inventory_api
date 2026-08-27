@@ -42,6 +42,10 @@ return $this->MovimientoRepository->findAll();
 
 }
 
+public function getByTipo(string $id) :Array {
+return $this->MovimientoRepository->findByTipo((int) $id);
+}
+
 
 
 }
