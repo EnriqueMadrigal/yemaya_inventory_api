@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Entities\Movimiento;
+use stdClass;
 
 class MovimientoRepository extends BaseRepository
 {
@@ -189,11 +190,25 @@ class MovimientoRepository extends BaseRepository
      */
     public function findByTipo(int $tipo): array
     {
-        $sql = "SELECT *
-                FROM {$this->table}
+        $sql = "SELECT a.id,
+                a.id_articulo,
+                a.id_medida,
+                a.cantidad,
+                a.tipo,
+                a.updated_by,
+                a.created_at,
+                a.observaciones,
+                b.nombre_producto,
+                c.nombre,
+                u.first_name,
+                u.last_name
+                FROM {$this->table} a
+                inner join articulo b on b.id = a.id_articulo
+                inner join unidad_medida c on c.id = a.id_medida
+                inner join users u on u.id = a.updated_by
                 WHERE tipo = :tipo
                 ORDER BY id DESC";
-
+           // echo ($sql);
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([
             'tipo' => $tipo
@@ -202,9 +217,45 @@ class MovimientoRepository extends BaseRepository
         $entities = [];
 
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-            $entities[] = $this->mapToEntity($row);
+            $newClass = new stdClass();
+            $newClass->id = (int)$row['id'];
+            $newClass->tipo = (int)$row['tipo'];
+            $newClass->id_articulo = (int)$row['id_articulo'];
+            $newClass->id_medida = (int)$row['id_medida'];
+            $newClass->cantidad = (float)$row['cantidad'];
+            $newClass->updated_by = (int)$row['updated_by'];
+            $newClass->created_at =  (string) $this->toDateTime($row['created_at'])->format('Y-m-d H:i:s');
+            $newClass->observaciones = (string)$row['observaciones'];
+            $newClass->nombre_producto = (string)$row['nombre_producto'];
+            $newClass->nombre_medida = (string)$row['nombre'];
+            $newClass->first_name = (string)$row['first_name'];
+            $newClass->last_name = (string)$row['last_name'];
+
+
+            $entities[] = $newClass;
+
+
+            //$entities[] = $this->mapToEntity($row);
         }
 
         return $entities;
     }
+
+private static function toNullableDateTime(mixed $v): ?\DateTimeInterface
+    {
+        if ($v === null || $v === '') return null;
+        if ($v instanceof \DateTimeInterface) return $v;
+        try {
+            // Expecting 'Y-m-d H:i:s'
+            return new \DateTimeImmutable((string)$v);
+        } catch (\Exception) {
+            return null;
+        }
+    }
+    private static function toDateTime(mixed $v): ?\DateTimeInterface
+    {
+        $dt = self::toNullableDateTime($v);
+        return $dt;
+    }
+
 }
