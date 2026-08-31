@@ -25,6 +25,7 @@ $movimiento->setIdArticulo($data['id_articulo']);
 $movimiento->setIdMedida($data['id_medida']);
 $movimiento->setCantidad($data['cantidad']);
 $movimiento->setTipo($data['tipo']);
+$movimiento->setUpdatedBy($data['updated_by']);
 $movimiento->setObservaciones($data['observaciones']);
 return $this->MovimientoRepository->save($movimiento);
 

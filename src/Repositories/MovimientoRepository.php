@@ -101,7 +101,7 @@ class MovimientoRepository extends BaseRepository
     /**
      * Insert a new Movimiento.
      */
-    public function save(Movimiento $movimiento): Movimiento
+    public function save(Movimiento $movimiento): String
     {
         $sql = "INSERT INTO {$this->table} (
                     id_articulo,
@@ -133,9 +133,10 @@ class MovimientoRepository extends BaseRepository
             'observaciones' => $movimiento->getObservaciones()
         ]);
 
-        $movimiento->setId((int) $this->pdo->lastInsertId());
+        $lastId = $this->pdo->lastInsertId();
+        $movimiento->setId((int) $lastId);
 
-        return $movimiento;
+        return $lastId;
     }
 
     /**
