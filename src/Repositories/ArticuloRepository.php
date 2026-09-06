@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Entities\Articulo;
+use stdClass;
 
 class ArticuloRepository extends BaseRepository
 {
@@ -569,4 +570,67 @@ class ArticuloRepository extends BaseRepository
             \PDO::PARAM_STR
         );
     }
+
+        //Inventario
+
+
+public function listInventario(): array
+    {
+        $sql = "SELECT a.id,
+                a.id_familia,
+                a.id_ubicacion,
+                a.id_unidad,
+                a.id_marca,
+                a.cantidad,
+                a.costo,
+                a.minima_cantidad,
+                a.updated_at,
+                a.nombre_producto,
+                b.nombre as 'nombre_familia',
+                c.nombre as 'nombre_ubicacion',
+                u.nombre as 'nombre_medida',
+                m.nombre as 'nombre_marca'
+                
+                FROM {$this->table} a
+                left join familia b on b.id = a.id_familia
+                left join ubicacion c on c.id = a.id_ubicacion
+                left join unidad_basica u on u.id = a.id_unidad
+                left join marca m on m.id = a.id_marca
+                ORDER BY a.nombre_producto ASC";
+           // echo ($sql);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+
+        $entities = [];
+
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            $newClass = new stdClass();
+            $newClass->id = (int)$row['id_familia'];
+            $newClass->id_familia = (int)$row['id_ubicacion'];
+            $newClass->id_unidad = (int)$row['id_unidad'];
+            $newClass->id_marca = (int)$row['id_marca'];
+            $newClass->cantidad = (float)$row['cantidad'];
+            $newClass->costo = (float)$row['costo'];
+            $newClass->minima_cantidad = (float)$row['minima_cantidad'];
+            $newClass->updated_at =  (string) $this->toDateTime($row['updated_at'])->format('Y-m-d H:i:s');
+
+            $newClass->nombre_producto = (string)$row['nombre_producto'];
+            $newClass->nombre_familia = (string)$row['nombre_familia'];
+            $newClass->nombre_ubicacion = (string)$row['nombre_ubicacion'];
+            $newClass->nombre_medida = (string)$row['nombre_medida'];
+            $newClass->nombre_marca = (string)$row['nombre_marca'];
+
+
+            $entities[] = $newClass;
+
+
+            //$entities[] = $this->mapToEntity($row);
+        }
+
+        return $entities;
+    }
+
+
+
+
 }

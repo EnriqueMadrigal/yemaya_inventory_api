@@ -102,5 +102,23 @@ public function getById(string $id) {
     }
 
 
+public function getInventario() {
+
+    try {
+        $unidades = $this->articleService->getInventario();
+
+        if (is_array($unidades)) {
+            $this->sendResponse(200, $unidades);
+        }
+        
+        } catch (\Exception $e) {
+              $this->sendError(400, $e->getMessage());
+          }
+
+    }
+
+
+
+
 
 }

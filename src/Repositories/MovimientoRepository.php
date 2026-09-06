@@ -242,6 +242,7 @@ class MovimientoRepository extends BaseRepository
         return $entities;
     }
 
+    /*
 private static function toNullableDateTime(mixed $v): ?\DateTimeInterface
     {
         if ($v === null || $v === '') return null;
@@ -258,5 +259,5 @@ private static function toNullableDateTime(mixed $v): ?\DateTimeInterface
         $dt = self::toNullableDateTime($v);
         return $dt;
     }
-
+*/
 }

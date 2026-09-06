@@ -86,6 +86,9 @@ return $this->articuloRepository->findAll();
 
 }
 
+public function getInventario() :Array {
+return $this->articuloRepository->listInventario();
 
+}
 
 }

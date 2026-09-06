@@ -13,6 +13,26 @@ namespace App\Repositories;
       
       }
 
+    public function toNullableDateTime(mixed $v): ?\DateTimeInterface
+    {
+        if ($v === null || $v === '') return null;
+        if ($v instanceof \DateTimeInterface) return $v;
+        try {
+            // Expecting 'Y-m-d H:i:s'
+            return new \DateTimeImmutable((string)$v);
+        } catch (\Exception) {
+            return null;
+        }
+    }
+    public function toDateTime(mixed $v): ?\DateTimeInterface
+    {
+        $dt = self::toNullableDateTime($v);
+        return $dt;
+    }
+
+
+
+
       /*
       public function findById($table, $id) {
           $stmt = $this->pdo->prepare("SELECT * FROM $table WHERE id = :id");

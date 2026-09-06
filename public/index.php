@@ -151,6 +151,11 @@ $router->get('/api/movimiento/', fn() => $movimientoController->getAll(),[AuthMi
 $router->get('/api/movimiento/(\d+)', fn($id) => $movimientoController->getByTipo($id),[AuthMiddleware::class]);
 
 
+//Inventario
+$router->get('/api/inventario/', fn() => $articleController->getInventario(),[AuthMiddleware::class]);
+
+
+
 $router->dispatch();
 
 
