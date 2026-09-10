@@ -49,7 +49,7 @@ $articuloRepository = new ArticuloRepository();
 $unidadMedidaRepository = new UnidadMedidaRepository();
 
 $articulo = $articuloRepository->findById($idArticulo);
-$unidadMedida = $articulo->getUnidadMedida();
+$unidadMedida = $articulo->getIdUnidad();
 
 if ($idUnidad !== $unidadMedida) {
     throw new \Exception("La unidad de medida del artículo no coincide con la unidad de medida del movimiento.");
