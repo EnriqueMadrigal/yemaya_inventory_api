@@ -41,6 +41,9 @@ $tipoMov = (int)$data['tipo'];
 $idUnidad = (int)$data['id_medida'];
 $cantidad = (float)$data['cantidad'];
 
+if ($cantidad <= 0) {
+    return ("La cantidad del movimiento debe ser mayor a cero.");
+}   
 
 
 
