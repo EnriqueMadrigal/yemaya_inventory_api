@@ -4,11 +4,16 @@ namespace App\Services;
 
 use App\Repositories\MovimientoRepository;
 use App\Entities\Movimiento;
+use App\Repositories\ArticuloRepository;
+use App\Repositories\UnidadMedidaRepository; 
+use App\Entities\UnidadMedida; 
+
 
 
 class MovimientoService {
 
 private MovimientoRepository $MovimientoRepository;
+
 
 public function __construct(MovimientoRepository $MovimientoRepository)
 {
@@ -27,8 +32,44 @@ $movimiento->setCantidad($data['cantidad']);
 $movimiento->setTipo($data['tipo']);
 $movimiento->setUpdatedBy($data['updated_by']);
 $movimiento->setObservaciones($data['observaciones']);
-return $this->MovimientoRepository->save($movimiento);
 
+$idMov = $this->MovimientoRepository->save($movimiento); 
+
+
+$idArticulo = (int)$data['id_articulo'];
+$tipoMov = (int)$data['tipo'];
+$idUnidad = (int)$data['id_medida'];
+$cantidad = (float)$data['cantidad'];
+
+
+
+
+
+$articuloRepository = new ArticuloRepository();
+$unidadMedidaRepository = new UnidadMedidaRepository();
+
+$articulo = $articuloRepository->findById($idArticulo);
+$unidadMedida = $articulo->getUnidadMedida();
+
+if ($idUnidad !== $unidadMedida) {
+    throw new \Exception("La unidad de medida del artículo no coincide con la unidad de medida del movimiento.");
+    return;
+}
+
+$unidadMedida = $unidadMedidaRepository->findById($idUnidad);
+
+$cantidadTotal = $cantidad * (float)$unidadMedida->getcantidad_medida();
+
+
+
+if ($tipoMov == 1) {
+    $articuloRepository->addCantidad($idArticulo, $cantidadTotal);
+} elseif ($tipoMov == 2) {
+    $articuloRepository->subtractCantidad($idArticulo, $cantidadTotal);
+}
+
+
+return $idMov;
 }
 
 

@@ -637,7 +637,22 @@ public function listInventario(): array
         return $entities;
     }
 
+    public function addCantidad($id, $cantidad)
+    {
+        $sql = "UPDATE {$this->table} SET cantidad = cantidad + :cantidad WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':cantidad', $cantidad, \PDO::PARAM_STR);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+    }
 
-
+    public function substractCantidad($id, $cantidad)
+    {
+        $sql = "UPDATE {$this->table} SET cantidad = cantidad - :cantidad WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':cantidad', $cantidad, \PDO::PARAM_STR);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+    }
 
 }
