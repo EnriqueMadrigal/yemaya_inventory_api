@@ -64,7 +64,7 @@ $cantidadTotal = $cantidad * (float)$unidadMedida->getcantidad_medida();
 if ($tipoMov == 1) {
     $articuloRepository->addCantidad($idArticulo, $cantidadTotal);
 } elseif ($tipoMov == 2) {
-    $articuloRepository->subtractCantidad($idArticulo, $cantidadTotal);
+    $articuloRepository->substractCantidad($idArticulo, $cantidadTotal);
 }
 
 
