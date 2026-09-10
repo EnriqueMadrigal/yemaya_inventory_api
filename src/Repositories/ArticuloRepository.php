@@ -612,7 +612,14 @@ public function listInventario(): array
             $newClass->cantidad = (float)$row['cantidad'];
             $newClass->costo = (float)$row['costo'];
             $newClass->minima_cantidad = (float)$row['minima_cantidad'];
-            $newClass->updated_at =  (string) $this->toDateTime($row['updated_at'])->format('Y-m-d H:i:s');
+            
+            $updated_at =  $this->toDateTime($row['updated_at']);
+        
+            if ($updated_at === null || $updated_at === '') {
+                $newClass->updated_at = '';
+            } else {
+                $newClass->updated_at = (string) $updated_at->format('Y-m-d H:i:s');
+            }
 
             $newClass->nombre_producto = (string)$row['nombre_producto'];
             $newClass->nombre_familia = (string)$row['nombre_familia'];
