@@ -52,8 +52,8 @@ $articulo = $articuloRepository->findById($idArticulo);
 $unidadMedida = $articulo->getIdUnidad();
 
 if ($idUnidad !== $unidadMedida) {
-    throw new \Exception("La unidad de medida del artículo no coincide con la unidad de medida del movimiento.");
-    return;
+    //throw new \Exception("La unidad de medida del artículo no coincide con la unidad de medida del movimiento.");
+    return 0;
 }
 
 $unidadMedida = $unidadMedidaRepository->findById($idUnidad);
