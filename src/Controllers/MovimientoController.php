@@ -37,7 +37,7 @@ http_response_code(200);
             else {
             echo json_encode([
             'error' => true,
-            'message' => "No se pudo realizar el movimiento. Verifique que la unidad de medida del artículo no coincide con la unidad de medida del movimiento."
+            'message' => $return
         ]);
 
             }
