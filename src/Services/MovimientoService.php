@@ -33,7 +33,7 @@ $movimiento->setTipo($data['tipo']);
 $movimiento->setUpdatedBy($data['updated_by']);
 $movimiento->setObservaciones($data['observaciones']);
 
-$idMov = $this->MovimientoRepository->save($movimiento); 
+
 
 
 $idArticulo = (int)$data['id_articulo'];
@@ -52,16 +52,23 @@ $articuloRepository = new ArticuloRepository();
 $unidadMedidaRepository = new UnidadMedidaRepository();
 
 $articulo = $articuloRepository->findById($idArticulo);
-$unidadMedida = $articulo->getIdUnidad();
 
-if ($idUnidad !== $unidadMedida) {
+$unidadMedidaArticulo = $articulo->getIdUnidad();
+
+$unidadMedida = $unidadMedidaRepository->findById($idUnidad);
+$idUnidadBasica = $unidadMedida->getid_unidad_basica();
+
+
+
+
+if ($unidadMedidaArticulo !== $idUnidadBasica) {
     return ("La unidad de medida del artículo no coincide con la unidad de medida del movimiento.");
 }
 
-$unidadMedida = $unidadMedidaRepository->findById($idUnidad);
 
 $cantidadTotal = $cantidad * (float)$unidadMedida->getcantidad_medida();
 
+$idMov = $this->MovimientoRepository->save($movimiento); 
 
 
 if ($tipoMov == 1) {
